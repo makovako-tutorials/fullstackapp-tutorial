@@ -1,0 +1,22 @@
+version: '3'
+services: 
+    redis:
+        image: redis
+        volumes: 
+            - ./data /data
+    worker:
+        build: ./worker
+        depends_on: 
+            - redis
+    api:
+        build: ./api
+        depends_on: 
+            - worker
+        ports: 
+            - 3001:3001
+    client:
+        build: ./client
+        depends_on: 
+            - api
+        ports: 
+            - 3000:3000
